@@ -1,7 +1,6 @@
 PHASE 1 — Basic item lookup cleanup
 Handle network errors if the API request fails
 Establish a Try-Except block for better exception handling
-Create a README file
 
 PHASE 4 — Favourite items
 Create a text file to store favourite item IDs

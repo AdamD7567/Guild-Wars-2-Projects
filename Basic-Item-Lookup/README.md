@@ -68,7 +68,7 @@ git clone https://github.com/AdamD7567/Guild-Wars-2-Projects.git
 2. Navigate into the project folder:
 
 ```bash
-cd "Guild-Wars-2-Projects/Guild Wars 2 Projects"
+cd "Guild-Wars-2-Projects/Basic-Item-Lookup"
 ```
 
 3. Install the required dependency:
@@ -82,6 +82,7 @@ pip install requests
 ```bash
 python basic_item_lookup.py
 ```
+
 
 ## Current Limitations
 
