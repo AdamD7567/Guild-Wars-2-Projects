@@ -10,29 +10,35 @@ def validate_input(item):
         return True
 
 # Function that takes a valid input and checks if the item exists.
-# Returns the item name for the ID or a status code if invalid.
-def lookup_by_Id(input):
+# Returns the item information for the input ID or an appropriate status code and message if invalid.
+def lookup_by_id(item_id):
 
     # Using requests.get to get the input item's information using ID
-    response = requests.get(f"https://api.guildwars2.com/v2/items/{input}")
+    response = requests.get(f"https://api.guildwars2.com/v2/items/{item_id}")
     data = response.json()
 
+    # Print the item information if successfully found
     if response.status_code == 200:
-        print(data["name"])
-        price_info = lookup_prices(input)
-
+        print("\nItem information\n--------------------")
+        print("Name: ", data["name"])
+        print("Type: ", data["type"])
+        print("Rarity: ", data["rarity"])
+        print("Level: ", data["level"])
+        print("\nTrading Post Information\n--------------------")
+        price_info = lookup_prices(item_id)
         if price_info is not None:
             print(price_info)
 
+    # Returning appropriate error code and message if not found
     else:
         print("Error ", response.status_code, ": Could not find that item.", )
         print("API message:", data.get("text", "Unknown error"))
 
 # Function that looks up the items buy and sell price on the Trading post
 # Takes in the item's ID and returns the current buy and sell price
-def lookup_prices(ID):
+def lookup_prices(item_id):
 
-    response = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{ID}")
+    response = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{item_id}")
     data = response.json()
     
     if response.status_code == 200:
@@ -61,17 +67,17 @@ def main():
     
     # Repeating loop
     searching = True
-    while searching == True:
+    while searching:
 
         # Check input is valid first
         valid = False
-        while valid == False:
-            item = input("Enter the ID of the item you are looking for: ")
-            if validate_input(item) == True:
+        while not valid:
+            input_item = input("Enter the ID of the item you are looking for: ")
+            if validate_input(input_item) == True:
                 valid = True
     
         # Lookup item
-        lookup_by_Id(item)
+        lookup_by_id(input_item)
 
         search_check = input("\nPress x to quit, or any other key to continue: ")
         if (search_check == "x"):

@@ -1,5 +1,4 @@
 PHASE 1 — Basic item lookup cleanup
-Display more item information, such as name, type, rarity, and level
 Handle network errors if the API request fails
 Establish a Try-Except block for better exception handling
 Create a README file
