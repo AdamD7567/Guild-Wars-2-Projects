@@ -4,16 +4,8 @@ Handle network errors if the API request fails
 Establish a Try-Except block for better exception handling
 Create a README file
 
-PHASE 2 — Repeated search flow
-Add a loop so the user can search multiple items without restarting
-Add an exit option, such as typing "quit"
-Allow repeated attempts after invalid input
-
 PHASE 3 — Trading Post prices
-Add Trading Post price lookup for an item
-Show highest buy order and lowest sell listing
-Format Trading Post prices as gold, silver, and copper
-Calculate the difference between buy and sell prices
+Calculate the difference between buy and sell prices (Flipping purposes)
 
 PHASE 4 — Favourite items
 Create a text file to store favourite item IDs
