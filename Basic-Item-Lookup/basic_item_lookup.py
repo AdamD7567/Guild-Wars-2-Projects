@@ -85,7 +85,10 @@ def main():
             print("Thank you for using the lookup service! Goodbye!")
             searching = False
 
-# Clearing the console on Entry TODO: Remove this when I move to frontend development.
+# Clearing the console on Entry 
+# TODO: Remove this when I move to frontend development.
 clear = lambda: os.system('cls')
-clear()
-main()
+
+if __name__ == "__main__":
+    clear()
+    main()
