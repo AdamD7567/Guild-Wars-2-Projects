@@ -110,12 +110,18 @@ def make_api_request(url):
 
     except requests.exceptions.JSONDecodeError:
         print("Invalid JSON response!")
-        print(f"Raw content received: {response.text[:200]}")
         return None
     
+    # Catch all for other unspecified request-related errors
     except requests.exceptions.RequestException as e:
         print(f"Unexpected request error: {e}")
         return None
+
+
+# TODO: Remove this when I move to frontend development.
+# Helper function that clears the screen
+def clear_console():
+    os.system("cls")
 
 
 
@@ -130,21 +136,18 @@ def main():
         valid = False
         while not valid:
             input_item = input("Enter the ID of the item you are looking for: ")
-            if validate_input(input_item) == True:
+            if validate_input(input_item):
                 valid = True
     
         # Lookup item
         lookup_by_id(input_item)
 
         search_check = input("\nPress x to quit, or any other key to continue: ")
-        if (search_check == "x"):
+        if search_check.lower() == "x":
             print("Thank you for using the lookup service! Goodbye!")
             searching = False
 
 # Clearing the console on Entry 
-# TODO: Remove this when I move to frontend development.
-clear = lambda: os.system('cls')
-
 if __name__ == "__main__":
-    clear()
+    clear_console()
     main()
