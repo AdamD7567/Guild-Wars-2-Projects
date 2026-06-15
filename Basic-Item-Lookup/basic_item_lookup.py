@@ -13,12 +13,13 @@ def validate_input(item):
 # Returns the item information for the input ID or an appropriate status code and message if invalid.
 def lookup_by_id(item_id):
 
-    # Using requests.get to get the input item's information using ID
-    response = requests.get(f"https://api.guildwars2.com/v2/items/{item_id}")
-    data = response.json()
+    try:
+        # Using requests.get to get the input item's information using ID
+        response = requests.get(f"https://api.guildwars2.com/v2/items/{item_id}", timeout=10)
+        response.raise_for_status()
+        data = response.json()
 
-    # Print the item information if successfully found
-    if response.status_code == 200:
+        # Print the item information if successfully found
         print("\nItem information\n--------------------")
         print("Name: ", data["name"])
         print("Type: ", data["type"])
@@ -28,17 +29,38 @@ def lookup_by_id(item_id):
         price_info = lookup_prices(item_id)
         if price_info is not None:
             print(price_info)
+    
+    # Handling specific error types
+    except requests.exceptions.ConnectionError:
+        print("Connection failed - could not reach the server.")
+    
+    except requests.exceptions.Timeout:
+        print("Request timed out - server took too long to respond.")
 
-    # Returning appropriate error code and message if not found
-    else:
-        print("Error ", response.status_code, ": Could not find that item.", )
-        print("API message:", data.get("text", "Unknown error"))
+    except requests.exceptions.HTTPError as e:
+        status_code = e.response.status_code
+
+        if status_code == 401:
+            print("Unauthorised access - check your API key.")
+        elif status_code == 404:
+            print("Not found - check the input ID.")
+        elif status_code == 429:
+            print("Rate limited - slow down your requests!")
+        elif status_code >= 500:
+            print(f"HTTP Error {status_code}")
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Unexpected error: {e}")
+    
+    except ValueError:
+        print("Error: The API response was not valid JSON.")
+        return None
 
 # Function that looks up the items buy and sell price on the Trading post.
 # Takes in the item's ID and returns the current buying/selling information.
 def lookup_prices(item_id):
 
-    response = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{item_id}")
+    response = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{item_id}", timeout=10)
     data = response.json()
     
     if response.status_code == 200:
